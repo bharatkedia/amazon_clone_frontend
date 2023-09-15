@@ -1,0 +1,29 @@
+import 'package:amazon_clone/constants/color_util.dart';
+import 'package:flutter/material.dart';
+
+class CustomButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onTap;
+  final Color? btnColor;
+
+  const CustomButton(
+      {Key? key, required this.text, required this.onTap, this.btnColor})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: btnColor,
+        minimumSize: const Size(double.infinity, 50),
+      ),
+      onPressed: onTap,
+      child: Text(
+        text,
+        style: TextStyle(
+          color: btnColor == null ? Colors.black : Colors.white,
+        ),
+      ),
+    );
+  }
+}
