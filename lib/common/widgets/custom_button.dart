@@ -1,4 +1,3 @@
-import 'package:amazon_clone/constants/color_util.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {

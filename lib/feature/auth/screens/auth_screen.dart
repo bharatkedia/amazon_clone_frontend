@@ -1,8 +1,9 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_text_field.dart';
-import 'package:amazon_clone/constants/color_util.dart';
-import 'package:amazon_clone/constants/text_util.dart';
+import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/service/auth_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum AuthType { signIn, signUp }
@@ -18,9 +19,14 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   AuthType _authType = AuthType.signUp;
+  final _signUpFormKey = GlobalKey<FormState>();
+  final _signInFormKey = GlobalKey<FormState>();
+  final authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+
+  // TODO: final logger = Logger();
 
   @override
   void dispose() {
@@ -30,10 +36,27 @@ class _AuthScreenState extends State<AuthScreen> {
     _passController.dispose();
   }
 
+  void signUpUser() {
+    authService.signUp(
+      context: context,
+      email: _emailController.text,
+      name: _nameController.text,
+      password: _passController.text,
+    );
+  }
+
+  void signInUser() {
+    authService.signIn(
+      context: context,
+      email: _emailController.text,
+      password: _passController.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorUtil.greyBackgroundColor,
+      backgroundColor: GlobalVariables.greyBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -41,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                TextUtil.welcome,
+                GlobalVariables.welcome,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -49,12 +72,12 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               ListTile(
                 tileColor: _authType == AuthType.signUp
-                    ? ColorUtil.backgroundColor
-                    : ColorUtil.greyBackgroundColor,
+                    ? GlobalVariables.backgroundColor
+                    : GlobalVariables.greyBackgroundColor,
                 leading: Radio(
                   groupValue: _authType,
                   value: AuthType.signUp,
-                  activeColor: ColorUtil.secondaryColor,
+                  activeColor: GlobalVariables.secondaryColor,
                   onChanged: (value) {
                     setState(() {
                       _authType = AuthType.signUp;
@@ -71,10 +94,11 @@ class _AuthScreenState extends State<AuthScreen> {
               if (_authType == AuthType.signUp)
                 Container(
                   color: _authType == AuthType.signUp
-                      ? ColorUtil.backgroundColor
-                      : ColorUtil.greyBackgroundColor,
+                      ? GlobalVariables.backgroundColor
+                      : GlobalVariables.greyBackgroundColor,
                   padding: const EdgeInsets.all(8),
                   child: Form(
+                    key: _signUpFormKey,
                     child: Column(
                       children: [
                         CustomTextField(
@@ -100,8 +124,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         CustomButton(
                           text: 'Sign Up',
-                          btnColor: ColorUtil.secondaryColor,
-                          onTap: () {},
+                          btnColor: GlobalVariables.secondaryColor,
+                          onTap: () {
+                            if (_signUpFormKey.currentState!.validate()) {
+                              signUpUser();
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -109,14 +137,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ListTile(
                 tileColor: _authType == AuthType.signIn
-                    ? ColorUtil.backgroundColor
-                    : ColorUtil.greyBackgroundColor,
+                    ? GlobalVariables.backgroundColor
+                    : GlobalVariables.greyBackgroundColor,
                 leading: Radio(
                   groupValue: _authType,
                   value: AuthType.signIn,
-                  activeColor: ColorUtil.secondaryColor,
+                  activeColor: GlobalVariables.secondaryColor,
                   onChanged: (value) {
-                    print(value);
                     setState(() {
                       _authType = AuthType.signIn;
                     });
@@ -132,10 +159,11 @@ class _AuthScreenState extends State<AuthScreen> {
               if (_authType == AuthType.signIn)
                 Container(
                   color: _authType == AuthType.signIn
-                      ? ColorUtil.backgroundColor
-                      : ColorUtil.greyBackgroundColor,
+                      ? GlobalVariables.backgroundColor
+                      : GlobalVariables.greyBackgroundColor,
                   padding: const EdgeInsets.all(8),
                   child: Form(
+                    key: _signInFormKey,
                     child: Column(
                       children: [
                         CustomTextField(
@@ -154,8 +182,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         CustomButton(
                           text: 'Sign In',
-                          btnColor: ColorUtil.secondaryColor,
-                          onTap: () {},
+                          btnColor: GlobalVariables.secondaryColor,
+                          onTap: () {
+                            if(_signInFormKey.currentState!.validate()) {
+                              signInUser();
+                            }
+                          },
                         ),
                       ],
                     ),
