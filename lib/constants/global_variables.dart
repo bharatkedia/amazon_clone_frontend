@@ -50,4 +50,6 @@ class GlobalVariables{
   ];
 
   static const String welcome = 'Welcome';
+  static const String contentType = 'Content-Type';
+  static const String contentTypeValue = 'application/json; charset=UTF-8';
 }
