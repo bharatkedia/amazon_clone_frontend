@@ -37,6 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void signUpUser() {
+    FocusManager.instance.primaryFocus?.unfocus();
     authService.signUp(
       context: context,
       email: _emailController.text,
@@ -46,6 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void signInUser() {
+    FocusManager.instance.primaryFocus?.unfocus();
     authService.signIn(
       context: context,
       email: _emailController.text,
@@ -124,7 +126,6 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         CustomButton(
                           text: 'Sign Up',
-                          btnColor: GlobalVariables.secondaryColor,
                           onTap: () {
                             if (_signUpFormKey.currentState!.validate()) {
                               signUpUser();
@@ -182,7 +183,6 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         CustomButton(
                           text: 'Sign In',
-                          btnColor: GlobalVariables.secondaryColor,
                           onTap: () {
                             if(_signInFormKey.currentState!.validate()) {
                               signInUser();

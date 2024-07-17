@@ -1,4 +1,5 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
+import 'package:amazon_clone/feature/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/feature/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/feature/home/screens/home_screen.dart';
 import 'package:amazon_clone/provider/user_provider.dart';
@@ -8,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'constants/global_variables.dart';
 import 'package:amazon_clone/router/router.dart';
 import 'package:flutter/material.dart';
+
+import 'model/user.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -38,6 +41,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<UserProvider>(context).user;
     return MaterialApp(
       title: 'Amazon Clone',
       theme: ThemeData(
@@ -45,8 +49,8 @@ class _MyAppState extends State<MyApp> {
         primary: GlobalVariables.secondaryColor,
       )),
       onGenerateRoute: generateRoute,
-      home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? const BottomBar()
+      home: user.token.isNotEmpty
+          ? user.type == 'admin'? const AdminScreen() : const BottomBar()
           : const AuthScreen(),
       debugShowCheckedModeBanner: false,
     );

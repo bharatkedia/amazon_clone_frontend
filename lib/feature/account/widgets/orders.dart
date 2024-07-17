@@ -1,4 +1,4 @@
-import 'package:amazon_clone/feature/account/widgets/single_product.dart';
+import 'package:amazon_clone/common/widgets/single_product.dart';
 import 'package:flutter/material.dart';
 
 

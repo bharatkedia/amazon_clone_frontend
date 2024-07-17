@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: btnColor == null ? Colors.black : Colors.white,
+          color: btnColor == null ? Colors.white : Colors.black,
         ),
       ),
     );

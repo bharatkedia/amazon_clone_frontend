@@ -1,37 +1,47 @@
-import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/common/widgets/loader.dart';
 import 'package:amazon_clone/feature/home/widgets/address_box.dart';
-import 'package:amazon_clone/feature/home/widgets/categories.dart';
-import 'package:amazon_clone/feature/home/widgets/deal_of_the_day.dart';
-import 'package:amazon_clone/feature/search/screens/search_screen.dart';
-import 'package:amazon_clone/provider/user_provider.dart';
+import 'package:amazon_clone/common/widgets/product_item.dart';
+import 'package:amazon_clone/model/product.dart';
+import 'package:amazon_clone/service/product_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../widgets/carousal_slider.dart';
+import '../../../constants/global_variables.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  static const String routeName = "/home_screen";
+class SearchScreen extends StatefulWidget {
+  final String searchQuery;
+
+  const SearchScreen({Key? key, required this.searchQuery}) : super(key: key);
+
+  static const String routeName = "/searchScreen";
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreenState extends State<SearchScreen> {
+  ProductService productService = ProductService();
+  List<Product>? products;
 
+  @override
+  void initState() {
+    super.initState();
+    getSearchedProduct();
+  }
 
-  void navigateToSearchScreen(String? searchQuery){
-    Navigator.pushNamed(context, SearchScreen.routeName, arguments: searchQuery);
+  void getSearchedProduct() async {
+    products =
+        await productService.getSearchedProduct(context, widget.searchQuery);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          foregroundColor: Colors.black,
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: GlobalVariables.appBarGradient,
@@ -48,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(7),
                     elevation: 1,
                     child: TextFormField(
-                      onFieldSubmitted: navigateToSearchScreen,
+                      onFieldSubmitted: (String? searchQuery) {},
                       decoration: InputDecoration(
                         prefixIcon: InkWell(
                           onTap: () {},
@@ -109,19 +119,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: const [
-            AddressBox(),
-            SizedBox(height: 10),
-            Categories(),
-            SizedBox(height: 10),
-            CarousalSlider(),
-            SizedBox(height: 10),
-            DealOfTheDay(),
-          ],
-        ),
-      ),
+      body: products == null
+          ? const Loader()
+          : Column(
+              children: [
+                const AddressBox(),
+                const SizedBox(height: 10,),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: products!.length,
+                    itemBuilder: (context, index) {
+                      Product product = products!.elementAt(index);
+                      return ProductItem(product: product);
+                    },
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

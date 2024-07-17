@@ -74,10 +74,10 @@ class AuthService {
         context: context,
         onSuccess: () async {
           SharedPreferences preferences = await SharedPreferences.getInstance();
-          Provider.of<UserProvider>(context, listen: false)
-              .setUser(response.body);
           preferences.setString(
               'auth-token', jsonDecode(response.body)['token']);
+          Provider.of<UserProvider>(context, listen: false)
+              .setUserFromJson(response.body);
           Navigator.pushNamedAndRemoveUntil(
               context, BottomBar.routeName, (route) => false);
         },
@@ -107,7 +107,7 @@ class AuthService {
         },
       );
       var userProvider = Provider.of<UserProvider>(context, listen: false);
-      userProvider.setUser(userResponse.body);
+      userProvider.setUserFromJson(userResponse.body);
     } catch (e) {
       // TODO: If execution comes inside the catch block, app will get crash. Handle this
       showSnackBar(context, e.toString());

@@ -18,7 +18,7 @@ class SingleProduct extends StatelessWidget {
                 width: 1.5,
               ),
               borderRadius: BorderRadius.circular(5),
-          color: Colors.white),
+          color: Colors.white,),
           child: Container(
             padding: const EdgeInsets.all(10),
             width: 180,
