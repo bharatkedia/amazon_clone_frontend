@@ -2,8 +2,6 @@ import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_text_field.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/service/auth_service.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 enum AuthType { signIn, signUp }
@@ -131,6 +129,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               signUpUser();
                             }
                           },
+                          btnColor: GlobalVariables.secondaryColor,
                         ),
                       ],
                     ),
@@ -188,6 +187,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               signInUser();
                             }
                           },
+                          btnColor: GlobalVariables.secondaryColor,
                         ),
                       ],
                     ),

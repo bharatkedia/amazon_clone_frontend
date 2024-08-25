@@ -1,7 +1,6 @@
 import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/feature/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/feature/auth/screens/auth_screen.dart';
-import 'package:amazon_clone/feature/home/screens/home_screen.dart';
 import 'package:amazon_clone/provider/user_provider.dart';
 import 'package:amazon_clone/service/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +49,9 @@ class _MyAppState extends State<MyApp> {
       )),
       onGenerateRoute: generateRoute,
       home: user.token.isNotEmpty
-          ? user.type == 'admin'? const AdminScreen() : const BottomBar()
+          ? user.type == 'admin'
+              ? const AdminScreen()
+              : const BottomBar()
           : const AuthScreen(),
       debugShowCheckedModeBanner: false,
     );
