@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Amazon Clone',
       theme: ThemeData(
           colorScheme: const ColorScheme.light(
-        primary: GlobalVariables.secondaryColor,
+          primary: GlobalVariables.secondaryColor,
       )),
       onGenerateRoute: generateRoute,
       home: user.token.isNotEmpty

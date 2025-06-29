@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "162205096849",
+    "project_id": "localfabbles",
+    "storage_bucket": "localfabbles.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162205096849:android:bf8daff82e3c8b90439830",
+        "android_client_info": {
+          "package_name": "com.example.amazon_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDPswytm3OjFrHXFZa_qCYgvmmlhqI9EE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
